@@ -105,3 +105,23 @@ module "rds" {
   db_sg_id    = module.security.sg_mysql_default
 
 }
+
+
+
+module "cloudfront" {
+  source = "./cloudfront"
+
+  name                           = "devsu-app"
+  s3_bucket_id                   = module.s3.bucket_name
+  s3_bucket_arn                  = module.s3.bucket_arn
+  s3_bucket_regional_domain_name = module.s3.bucket_regional_domain_name
+  s3_bucket_website_endpoint     = module.s3.website_url
+
+
+  # No aliases by default - if you want to use a custom domain, create/validate an ACM certificate
+  aliases = []
+
+  # ACM certificate ARN (must be in us-east-1) - set to empty string to use CloudFront default cert
+  acm_certificate_arn = ""
+  depends_on = [ module.s3 ]
+}

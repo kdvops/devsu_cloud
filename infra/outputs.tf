@@ -13,3 +13,6 @@ output "rds_endpoint_mysql" {
 output "s3_bucket" {
   value = module.s3.bucket_name
 }
+output "s3_website_url" {
+  value = module.s3.website_url
+}
