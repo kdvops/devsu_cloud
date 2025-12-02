@@ -1,0 +1,20 @@
+{
+  "name": "api-mysql",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest --runInBand"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0",
+    "supertest": "^7.0.0"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "mysql2": "^3.9.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5"
+  }
+}

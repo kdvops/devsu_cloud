@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SimpleAPI Frontend</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+    <div class="container">
+        <h1>Usuarios – SimpleAPI</h1>
+
+        <div class="search-box">
+            <input type="number" id="userId" placeholder="Buscar usuario por ID">
+            <button onclick="buscarUsuario()">Buscar</button>
+        </div>
+
+        <h2>Todos los usuarios</h2>
+        <button onclick="listarUsuarios()">Actualizar Lista</button>
+
+        <div id="result" class="result"></div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
