@@ -9,6 +9,23 @@ data "aws_subnets" "default" {
   }
 }
 
+resource "aws_ssm_parameter" "db_host" {
+  name  = "/dev/app/db_host"
+  type  = "String"
+  value = module.rds.db_endpoint_mysql
+}
+
+resource "aws_ssm_parameter" "db_user" {
+  name  = "/dev/app/db_user"
+  type  = "SecureString"
+  value = var.db_user
+}
+
+resource "aws_ssm_parameter" "db_password" {
+  name  = "/dev/app/db_password"
+  type  = "SecureString"
+  value = var.db_password
+}
 
 
 ######### VPC   #########
