@@ -20,7 +20,7 @@ variable "bucket_name" {
 variable "container_image" {
   type    = string
   #default = "silencfox/simpleapi:fixe"
-  default = "silencfox/simpleapi:fixemysql"
+  default = "silencfox/simpleapi:latest"
 }
 
 variable "container_port" {
