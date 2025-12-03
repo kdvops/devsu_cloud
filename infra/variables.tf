@@ -8,6 +8,15 @@ variable "workspace_name" {
   default = "devsarrollo"
 }
 
+variable "bucket_name" {
+  type    = string
+  validation {
+    condition = can(regex("^([a-z0-9]{1}[a-z0-9-]{1,61}[a-z0-9]{1})$", var.bucket_name))
+    error_message = "Bucket name no debe de estar vacio y debe seguir las reglas de nombramiento de S3"
+  }
+  default = "devsu-app"
+}
+
 variable "container_image" {
   type    = string
   #default = "silencfox/simpleapi:fixe"
