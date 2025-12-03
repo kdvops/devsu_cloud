@@ -84,4 +84,3 @@ variable "ssm_db_pass_arn" {
   type        = string
 }
 
-
