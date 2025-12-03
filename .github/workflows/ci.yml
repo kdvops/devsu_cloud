@@ -76,8 +76,8 @@ jobs:
 
       - name: HashiCorp - Setup Terraform
         uses: hashicorp/setup-terraform@v2.0.3
-        with:
-          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+        #with:
+        #  cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
       - name: ReplaceTokens
         uses: qetza/replacetokens-action@v1
