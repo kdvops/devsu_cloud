@@ -6,7 +6,7 @@ resource "random_id" "id" {
 # S3 Bucket
 # -----------------------------
 resource "aws_s3_bucket" "app" {
-  bucket        = "devsu-app-${random_id.id.hex}"
+  bucket        = "${var.bucket_name}-${random_id.id.hex}"
   force_destroy = true   # permite destruir aunque tenga archivos
 }
 
