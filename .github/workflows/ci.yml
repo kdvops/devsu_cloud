@@ -197,7 +197,7 @@ jobs:
           sources: |
             **/*.json;!**/*.dev.json;!**/vars.json => _tmp/*.json
             **/*.yml;**/*.yaml;**/*.tfvars;**/backend.tf
-            **/app.js;
+            **/app.js;**/db.js
           variables: '[${{ toJSON(vars) }},${{ toJSON(secrets) }},"$ENV"]'
           
     
