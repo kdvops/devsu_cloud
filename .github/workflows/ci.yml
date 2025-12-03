@@ -67,6 +67,8 @@ jobs:
     #    working-directory: infra
     steps:
 
+      - uses: actions/checkout@v4
+
       - name: Despliegue
         run: echo "tarea de despliegue"
 
@@ -78,7 +80,11 @@ jobs:
       - name: test terraform
         #working-directory: ./infra
         run: |
+          echo "ruta actual"
           pwd
+          echo "contenido actual"
+          ls -lrta
+          echo "contenido padre"
           ls -lrta ../
 
       - name: test terraform
