@@ -96,7 +96,7 @@ module "ecs" {
 
 
 module "ecs_iam" {
-  source = "./modules/ecs-iam"
+  source = "./ecs-iam"
 
   name_prefix = "backend"
 
