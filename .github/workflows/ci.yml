@@ -135,12 +135,13 @@ jobs:
 
       - name: Export outputs as GitHub Env Vars
         run: |
-          echo "ALB_DNS_NAME=$(terraform output -raw alb_dns_name)" >> $GITHUB_ENV
-          echo "S3_BUCKET=$(terraform output -raw s3_bucket)" >> $GITHUB_ENV
-          echo "RDS_ENDPOINT=$(terraform output -raw rds_endpoint)" >> $GITHUB_ENV
-          echo "RDS_ENDPOINT_MYSQL=$(terraform output -raw rds_endpoint_mysql)" >> $GITHUB_ENV
-          echo "S3_BUCKET=$(terraform output -raw s3_bucket)" >> $GITHUB_ENV
-          echo "S3_WEBSITE_URL=$(terraform output -raw s3_website_url)" >> $GITHUB_ENV
+          echo terraform output -raw alb_dns_name >> $GITHUB_ENV
+          #echo "ALB_DNS_NAME=$(terraform output -raw alb_dns_name)" >> $GITHUB_ENV
+          #echo "S3_BUCKET=$(terraform output -raw s3_bucket)" >> $GITHUB_ENV
+          #echo "RDS_ENDPOINT=$(terraform output -raw rds_endpoint)" >> $GITHUB_ENV
+          #echo "RDS_ENDPOINT_MYSQL=$(terraform output -raw rds_endpoint_mysql)" >> $GITHUB_ENV
+          #echo "S3_BUCKET=$(terraform output -raw s3_bucket)" >> $GITHUB_ENV
+          #echo "S3_WEBSITE_URL=$(terraform output -raw s3_website_url)" >> $GITHUB_ENV
 
 
       - name: Mostrar outputs exportados
