@@ -70,7 +70,10 @@ jobs:
         uses: hashicorp/setup-terraform@v2.0.3
 
       - name: test terraform
-        run: terraform init
+        working-directory: ./infra
+        run: |
+          terraform init
+          terraform validate
 
 
       
