@@ -1,20 +1,3 @@
-terraform {
-#  required_version = ">= 1.4"
-  required_version = ">= 1.14"
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 6.23.0"
-    }
-  }
-}
-
-provider "aws" {
-  region = var.aws_region
-}
-
-
-
 data "aws_vpc" "default" {
   default = true
 }
