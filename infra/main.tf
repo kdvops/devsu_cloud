@@ -9,6 +9,8 @@ data "aws_subnets" "default" {
   }
 }
 
+data "aws_caller_identity" "current" {}
+
 resource "aws_ssm_parameter" "db_host" {
   name  = "/dev/app/db_host"
   type  = "String"
