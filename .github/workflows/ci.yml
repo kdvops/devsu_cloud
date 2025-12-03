@@ -143,18 +143,32 @@ jobs:
       - name: Export outputs as GitHub Env Vars
         working-directory: ./infra
         run: |
-          #terraform output -raw alb_dns_name
-          #echo "ALB_DNS_NAME=$(terraform output -raw alb_dns_name)" >> $GITHUB_ENV
-          #ALB_URL=$(terraform output -raw alb_dns_name | sed 's/::debug::.*//')
-          #echo $ALB_URL
-          #echo "ALB limpio: $ALB_URL"
+          ALB_URL=$(terraform output -raw alb_dns_name | sed 's/::debug::.*//' | tr -d '\r')
+          S3_BUCKET=$(terraform output -raw s3_bucket | sed 's/::debug::.*//' | tr -d '\r')
+          RDS_ENDPOINT=$(terraform output -raw rds_endpoint | sed 's/::debug::.*//' | tr -d '\r')
+          RDS_ENDPOINT_MYSQL=$(terraform output -raw rds_endpoint_mysql | sed 's/::debug::.*//' | tr -d '\r')
+          S3_WEBSITE_URL=$(terraform output -raw s3_website_url | sed 's/::debug::.*//' | tr -d '\r')
           #echo "ALB_DNS_NAME2=$(echo $ALB_URL)" >> $GITHUB_ENV
           #echo "ALB_DNS_NAME2=$ALB_URL" >> $GITHUB_ENV
           
-          ALB_URL=$(terraform output -raw alb_dns_name | sed 's/::debug::.*//' | tr -d '\r')
-          #echo "ALB URL: $ALB_URL"
           echo 'ALB_DNS_NAME<<EOF' >> $GITHUB_ENV
           echo "$ALB_URL" >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
+
+          echo 'S3_BUCKET<<EOF' >> $GITHUB_ENV
+          echo "$S3_BUCKET" >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
+
+          echo 'RDS_ENDPOINT<<EOF' >> $GITHUB_ENV
+          echo "$RDS_ENDPOINT" >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
+
+          echo 'RDS_ENDPOINT_MYSQL<<EOF' >> $GITHUB_ENV
+          echo "$RDS_ENDPOINT_MYSQL" >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
+
+          echo 'S3_WEBSITE_URL<<EOF' >> $GITHUB_ENV
+          echo "$S3_WEBSITE_URL" >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
 
           
@@ -171,13 +185,11 @@ jobs:
           ALB2: ${{ env.ALB_DNS_NAME2 }}
         run: |
           echo "Usando ALB: $ALB"
-          echo "Usando ALB2: $ALB2"
           echo "ALB_URL: $ALB_DNS_NAME"
           echo "S3_BUCKET: $S3_BUCKET"
           echo "RDS_ENDPOINT: $RDS_ENDPOINT"
-          echo "RDS_ENDPOINT: $RDS_ENDPOINT_MYSQL"
-          echo "RDS_ENDPOINT: $S3_BUCKET"
-          echo "RDS_ENDPOINT: $S3_WEBSITE_URL"
+          echo "RDS_ENDPOINT_MYSQL: $RDS_ENDPOINT_MYSQL"
+          echo "S3_WEBSITE_URL: $S3_WEBSITE_URL"
 
     
       - name: Configure AWS credentials
