@@ -142,7 +142,7 @@ jobs:
           ALB_URL=$(terraform output -raw alb_dns_name | sed 's/::debug::.*//')
           #echo "ALB_DNS_NAME=$(echo $ALB_URL)" >> $GITHUB_ENV
           printf "ALB_DNS_NAME=%s\n" "$ALB_URL" >> $GITHUB_ENV
-          echo "ALB limpio: $ALB_URL"
+          #echo "ALB limpio: $ALB_URL"
           #echo ${{ vars.ALB_DNS_NAME }}
           #echo "ALB_DNS_NAME=$ALB_URL" >> $GITHUB_ENV
           
