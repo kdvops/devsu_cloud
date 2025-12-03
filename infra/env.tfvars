@@ -1,4 +1,4 @@
-aws_region     = "us-east-1"
+aws_region     = "#{AWS_REGION}#"
 
 container_image = "silencfox/simpleapi:fixemysql"
 container_port  = 3000
