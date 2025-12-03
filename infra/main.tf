@@ -82,10 +82,6 @@ module "ecs" {
   sg_tasks   = module.security.sg_mysql_default
   sg_alb     = module.security.sg_mysql_default
   
-  ssm_db_host_arn = aws_ssm_parameter.db_host.arn
-  ssm_db_user_arn = aws_ssm_parameter.db_user.arn
-  ssm_db_pass_arn = aws_ssm_parameter.db_password.arn
-  #db_name         = "mydatabase"
 
   #db_host    = module.rds.db_endpoint_mysql
   db_host     = module.rds.db_endpoint_mysql
@@ -93,7 +89,28 @@ module "ecs" {
   db_name     = var.db_name
   db_password = var.db_password
 
+  execution_role_arn = module.ecs_iam.execution_role_arn
+  task_role_arn      = module.ecs_iam.task_role_arn
+
 }
+
+
+module "ecs_iam" {
+  source = "./modules/ecs-iam"
+
+  name_prefix = "backend"
+
+  region     = var.region
+  account_id = data.aws_caller_identity.current.account_id
+
+  ssm_parameters_arns = [
+    aws_ssm_parameter.db_host.arn,
+    aws_ssm_parameter.db_user.arn,
+    aws_ssm_parameter.db_password.arn
+  ]
+}
+
+
 
 ###########     RDS MySQL    #################
 module "rds" {
