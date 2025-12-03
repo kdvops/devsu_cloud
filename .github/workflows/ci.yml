@@ -143,18 +143,13 @@ jobs:
       - name: Export outputs as GitHub Env Vars
         working-directory: ./infra
         run: |
-          #ALB_URL=$(terraform output -raw alb_dns_name | sed 's/::debug::.*//' | tr -d '\r')
-          #S3_BUCKET=$(terraform output -raw s3_bucket | sed 's/::debug::.*//' | tr -d '\r')
-          #RDS_ENDPOINT=$(terraform output -raw rds_endpoint | sed 's/::debug::.*//' | tr -d '\r')
-          #RDS_ENDPOINT_MYSQL=$(terraform output -raw rds_endpoint_mysql | sed 's/::debug::.*//' | tr -d '\r')
-          #S3_WEBSITE_URL=$(terraform output -raw s3_website_url | sed 's/::debug::.*//' | tr -d '\r')
+          ALB_URL=$(terraform output -raw alb_dns_name | sed 's/::debug::.*//' | tr -d '\r')
+          S3_BUCKET=$(terraform output -raw s3_bucket | sed 's/::debug::.*//' | tr -d '\r')
+          RDS_ENDPOINT=$(terraform output -raw rds_endpoint | sed 's/::debug::.*//' | tr -d '\r')
+          RDS_ENDPOINT_MYSQL=$(terraform output -raw rds_endpoint_mysql | sed 's/::debug::.*//' | tr -d '\r')
+          S3_WEBSITE_URL=$(terraform output -raw s3_website_url | sed 's/::debug::.*//' | tr -d '\r')
 
-          ALB_URL=$(terraform output -raw alb_dns_name | sed 's/::debug::.*//' | tr -d '\r' | tail -n 1)
-          S3_BUCKET=$(terraform output -raw s3_bucket | sed 's/::debug::.*//' | tr -d '\r' | tail -n 1)
-          RDS_ENDPOINT=$(terraform output -raw rds_endpoint | sed 's/::debug::.*//' | tr -d '\r' | tail -n 1)
-          RDS_ENDPOINT_MYSQL=$(terraform output -raw rds_endpoint_mysql | sed 's/::debug::.*//' | tr -d '\r' | tail -n 1)
-          S3_WEBSITE_URL=$(terraform output -raw s3_website_url | sed 's/::debug::.*//' | tr -d '\r' | tail -n 1)
-          
+          S3_BUCKET=$(echo "$S3_BUCKET" | sed 's/^\[command\].* -raw [^ ]* //')
 
           
           echo 'ALB_DNS_NAME<<EOF' >> $GITHUB_ENV
