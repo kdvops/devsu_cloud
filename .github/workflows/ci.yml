@@ -128,11 +128,11 @@ jobs:
           echo "Outputs generados:"
           cat infra_outputs.json
 
-      - name: Upload Terraform Output Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: infra_outputs
-          path: ./infra/infra_outputs.json
+      #- name: Upload Terraform Output Artifact
+      #  uses: actions/upload-artifact@v4
+      #  with:
+      #    name: infra_outputs
+      #    path: ./infra/infra_outputs.json
 
       - name: Test vars
         working-directory: ./infra
@@ -147,9 +147,9 @@ jobs:
           #echo "ALB_DNS_NAME=$(terraform output -raw alb_dns_name)" >> $GITHUB_ENV
           ALB_URL=$(terraform output -raw alb_dns_name | sed 's/::debug::.*//')
           #echo $ALB_URL
-          #echo "ALB_DNS_NAME=$(echo $ALB_URL)" >> $GITHUB_ENV
-          #echo "ALB limpio: $ALB_URL"
-          #echo "ALB_DNS_NAME=$ALB_URL" >> $GITHUB_ENV
+          echo "ALB limpio: $ALB_URL"
+          echo "ALB_DNS_NAME2=$(echo $ALB_URL)" >> $GITHUB_ENV
+          #echo "ALB_DNS_NAME2=$ALB_URL" >> $GITHUB_ENV
           
           ALB_URL=$(terraform output -raw alb_dns_name | sed 's/::debug::.*//' | tr -d '\r')
           #echo "ALB URL: $ALB_URL"
@@ -168,8 +168,10 @@ jobs:
       - name: Mostrar outputs exportados
         env:
           ALB: ${{ env.ALB_DNS_NAME }}
+          ALB2: ${{ env.ALB_DNS_NAME2 }}
         run: |
           echo "Usando ALB: $ALB"
+          echo "Usando ALB2: $ALB2"
           echo "ALB_URL: $ALB_DNS_NAME"
           echo "S3_BUCKET: $S3_BUCKET"
           echo "RDS_ENDPOINT: $RDS_ENDPOINT"
