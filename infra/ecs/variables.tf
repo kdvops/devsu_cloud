@@ -77,3 +77,5 @@ variable "ssm_db_pass_arn" {
   type        = string
 }
 
+variable "execution_role_arn" {}
+variable "task_role_arn" {}
