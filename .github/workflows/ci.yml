@@ -120,6 +120,7 @@ jobs:
 
 
       - name: Export Terraform Outputs to JSON
+        working-directory: ./infra
         id: tf_outputs
         run: |
           terraform output -json > infra_outputs.json
@@ -130,7 +131,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: infra_outputs
-          path: infra_outputs.json
+          path: ./infra/infra_outputs.json
 
       - name: Export outputs as GitHub Env Vars
         run: |
