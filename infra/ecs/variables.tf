@@ -67,3 +67,21 @@ variable "db_port" {
 
 
 
+
+
+variable "ssm_db_host_arn" {
+  description = "ARN del SSM Parameter para DB_HOST"
+  type        = string
+}
+
+variable "ssm_db_user_arn" {
+  description = "ARN del SSM Parameter para DB_USER"
+  type        = string
+}
+
+variable "ssm_db_pass_arn" {
+  description = "ARN del SSM Parameter para DB_PASSWORD"
+  type        = string
+}
+
+
