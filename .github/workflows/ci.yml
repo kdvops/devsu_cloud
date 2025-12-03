@@ -62,9 +62,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       HOLA: ${{ vars.DOCKERHUB_USERNAME }}
-    defaults:
-      run:
-        working-directory: infra
+    #defaults:
+    #  run:
+    #    working-directory: infra
     steps:
 
       - name: Despliegue
