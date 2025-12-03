@@ -76,7 +76,13 @@ jobs:
         uses: hashicorp/setup-terraform@v2.0.3
 
       - name: test terraform
-        working-directory: ./infra
+        #working-directory: ./infra
+        run: |
+          pwd
+          ls -lrta
+
+      - name: test terraform
+        #working-directory: ./infra
         run: |
           terraform init
           terraform validate
