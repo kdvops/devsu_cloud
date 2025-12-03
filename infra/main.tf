@@ -87,6 +87,10 @@ module "ecs" {
   db_name     = var.db_name
   db_password = var.db_password
 
+  execution_role_arn = module.ecs_iam.execution_role_arn
+  task_role_arn      = module.ecs_iam.task_role_arn
+
+
 
 }
 
