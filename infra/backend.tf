@@ -2,7 +2,7 @@ terraform {
   cloud {
     organization = "KDvops"
     workspaces {
-      name = #{ENVIRONMENT}#
+      name = "#{ENVIRONMENT}#"
     }
   }
 }
