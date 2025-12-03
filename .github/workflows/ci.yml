@@ -64,9 +64,9 @@ jobs:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
-    defaults:
-      run:
-        working-directory: infra
+    #defaults:
+    #  run:
+    #    working-directory: infra
     strategy:
       matrix:
         environment: [DEV, QA, PROD]
@@ -94,12 +94,15 @@ jobs:
           variables: '[${{ toJSON(vars) }},${{ toJSON(secrets) }},"$ENV"]'
 
       - name: Terraform Init
+        working-directory: ./backend
         run: terraform init
 
       - name: Terraform validate
+        working-directory: ./backend
         run: terraform validate
 
       - name: Terraform Plan
+        working-directory: ./backend
         run: terraform plan
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -107,11 +110,23 @@ jobs:
           TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
 
       - name: Terraform apply
+        working-directory: ./backend
         run: terraform apply --auto-approve
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Upload to S3
+        run: aws s3 sync ./frontend s3://mybucket
+        #--delete
     
       #- name: Terraform Apply
       #  if: github.ref == 'refs/heads/main'
@@ -141,9 +156,9 @@ jobs:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
-    defaults:
-      run:
-        working-directory: infra
+    #defaults:
+    #  run:
+    #    working-directory: infra
     strategy:
       matrix:
         environment: [DEV, QA, PROD]
@@ -171,12 +186,15 @@ jobs:
           variables: '[${{ toJSON(vars) }},${{ toJSON(secrets) }},"$ENV"]'
 
       - name: Terraform Init
+        working-directory: ./backend
         run: terraform init
 
       - name: Terraform validate
+        working-directory: ./backend
         run: terraform validate
 
       - name: Terraform Plan
+        working-directory: ./backend
         run: terraform plan
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -184,6 +202,7 @@ jobs:
           TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
     
       - name: Terraform destroy
+        working-directory: ./backend
         run: terraform destroy --auto-approve
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
