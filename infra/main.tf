@@ -25,7 +25,7 @@ module "iam" {
 #########    S3    #########
 module "s3" {
   source = "./s3"
-  bucket_name = var.bucket_name
+  #bucket_name = var.bucket_name
 }
 
 ######### SECURITY GROUPS FOR ALB + ECS   #########
