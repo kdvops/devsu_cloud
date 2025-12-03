@@ -61,7 +61,7 @@ jobs:
     name: deploy
     runs-on: ubuntu-latest
     env:
-      HOLA: ${{ mundo }}
+      HOLA: ${{ vars.DOCKERHUB_USERNAME }}
     defaults:
       run:
         working-directory: infra
