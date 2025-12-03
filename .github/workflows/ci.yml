@@ -139,7 +139,9 @@ jobs:
           terraform output -raw alb_dns_name
           #echo "ALB_DNS_NAME=$(terraform output -raw alb_dns_name)" >> $GITHUB_ENV
           ALB_URL=$(terraform output -raw alb_dns_name | sed 's/::debug::.*//')
-          echo "ALB_DNS_NAME=$ALB_URL" >> $GITHUB_ENV
+          echo "ALB_DNS_NAME=$(echo $ALB_URL | cut -c 1-6)" >> $GITHUB_ENV
+
+          #echo "ALB_DNS_NAME=$ALB_URL" >> $GITHUB_ENV
           
           #echo "S3_BUCKET=$(terraform output -raw s3_bucket)" >> $GITHUB_ENV
           #echo "RDS_ENDPOINT=$(terraform output -raw rds_endpoint)" >> $GITHUB_ENV
