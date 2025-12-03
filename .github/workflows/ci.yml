@@ -139,9 +139,10 @@ jobs:
           terraform output -raw alb_dns_name
           #echo "ALB_DNS_NAME=$(terraform output -raw alb_dns_name)" >> $GITHUB_ENV
           ALB_URL=$(terraform output -raw alb_dns_name | sed 's/::debug::.*//')
-          echo "ALB_DNS_NAME=$(echo $ALB_URL)" >> $GITHUB_ENV
-          echo ${{ vars.ALB_DNS_NAME }}
-          
+          #echo "ALB_DNS_NAME=$(echo $ALB_URL)" >> $GITHUB_ENV
+          printf "ALB_DNS_NAME=%s\n" "$ALB_URL" >> $GITHUB_ENV
+          echo "ALB limpio: $ALB_URL"
+          #echo ${{ vars.ALB_DNS_NAME }}
           #echo "ALB_DNS_NAME=$ALB_URL" >> $GITHUB_ENV
           
           #echo "S3_BUCKET=$(terraform output -raw s3_bucket)" >> $GITHUB_ENV
@@ -155,13 +156,13 @@ jobs:
         env:
           ALB: ${{ env.ALB_DNS_NAME }}
         run: |
+          echo "Usando ALB: $ALB"
           echo "ALB_URL: $ALB_DNS_NAME"
           echo "S3_BUCKET: $S3_BUCKET"
           echo "RDS_ENDPOINT: $RDS_ENDPOINT"
           echo "RDS_ENDPOINT: $RDS_ENDPOINT_MYSQL"
           echo "RDS_ENDPOINT: $S3_BUCKET"
           echo "RDS_ENDPOINT: $S3_WEBSITE_URL"
-          echo "Usando ALB: $ALB"
 
     
       - name: Configure AWS credentials
@@ -176,7 +177,7 @@ jobs:
         #--delete
     
       - name: Terraform destroy
-        if: github.ref == 'refs/heads/main'
+        if: false
         working-directory: ./infra
         run: terraform destroy --auto-approve
         env:
