@@ -7,3 +7,4 @@ db_user     = "#{DB_USER}#"
 db_password = "#{DB_PASSWORD}#"
 
 db_host = "database-1.c29y2kmw0cj4.us-east-1.rds.amazonaws.com"
+bucket_name= "devsu-app-bucket"
