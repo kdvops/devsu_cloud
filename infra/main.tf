@@ -70,8 +70,6 @@ module "ecs" {
   private_subnets = data.aws_subnets.default.ids
   public_subnets  = data.aws_subnets.default.ids
 
-  execution_role_arn = module.iam.ecs_execution_role_arn
-  task_role_arn      = module.iam.ecs_task_role_arn
 
   container_image = var.container_image
   container_port  = var.container_port
@@ -91,6 +89,10 @@ module "ecs" {
 
   execution_role_arn = module.ecs_iam.execution_role_arn
   task_role_arn      = module.ecs_iam.task_role_arn
+
+  ssm_db_host_arn = aws_ssm_parameter.db_host.arn
+  ssm_db_user_arn = aws_ssm_parameter.db_user.arn
+  ssm_db_pass_arn = aws_ssm_parameter.db_password.arn
 
 }
 
