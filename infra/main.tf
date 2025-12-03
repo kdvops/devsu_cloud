@@ -66,7 +66,7 @@ module "ecs_iam" {
 
   name_prefix = "backend"
 
-  region     = var.region
+  region     = var.aws_region
   account_id = data.aws_caller_identity.current.account_id
 
   ssm_parameters_arns = [
