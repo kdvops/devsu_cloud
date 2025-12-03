@@ -67,6 +67,12 @@ jobs:
     defaults:
       run:
         working-directory: infra
+    strategy:
+      matrix:
+        environment: [DEV, QA, PROD]
+
+    environment: ${{ matrix.environment }}
+
     steps:
 
       - uses: actions/checkout@v4
