@@ -134,6 +134,12 @@ jobs:
           name: infra_outputs
           path: ./infra/infra_outputs.json
 
+      - name: Test vars
+        working-directory: ./infra
+        run: |
+          MYVAR="Hola Mundo DK"
+          echo $MYVAR
+          
       - name: Export outputs as GitHub Env Vars
         working-directory: ./infra
         run: |
