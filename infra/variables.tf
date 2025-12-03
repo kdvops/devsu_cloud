@@ -28,6 +28,12 @@ variable "container_port" {
   default = 3000
 }
 
+variable "db_name" {
+  type      = string
+  default = "testdb"
+  sensitive = true
+}
+
 variable "db_user" {
   type      = string
   default = "root"
@@ -43,7 +49,7 @@ variable "db_password" {
 
 variable "db_host" {
   type    = string
-  default = "database-1.c29y2kmw0cj4.us-east-1.rds.amazonaws.com"
+  default = "localhost"
 }
 
 
