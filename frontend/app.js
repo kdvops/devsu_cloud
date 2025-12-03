@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3000/api/usuarios"; 
+const API_URL = "#{ALB_DNS_NAME}#/:3000/api/usuarios"; 
 // Ej: "https://api.kdvops.com/api/usuarios"
 
 async function listarUsuarios() {
