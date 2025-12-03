@@ -79,7 +79,7 @@ jobs:
         #working-directory: ./infra
         run: |
           pwd
-          ls -lrta
+          ls -lrta ../
 
       - name: test terraform
         #working-directory: ./infra
