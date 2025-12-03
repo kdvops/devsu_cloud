@@ -7,10 +7,10 @@ const pool = mysql.createPool({
     //user: process.env.DB_USER,
     //password: process.env.DB_PASSWORD,
     //database: process.env.DB_NAME,
-    host: "backend-mysql.c29y2kmw0cj4.us-east-1.rds.amazonaws.com",
-    user: "root",
-    password: "123456789",
-    database: "testdb",
+    host: "#{RDS_ENDPOINT_MYSQL}#",
+    user: "#{DB_USER}#",
+    password: "#{DB_PASS}#",
+    database: "#{DB_NAME}#",
     waitForConnections: true,
     connectionLimit: 10
 });
