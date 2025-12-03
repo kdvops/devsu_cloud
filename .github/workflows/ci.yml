@@ -20,11 +20,11 @@ jobs:
           node-version: "20"
 
       - name: Install dependencies
-        working-directory: ./App
+        working-directory: ./backend
         run: npm install
 
       - name: Run Tests
-        working-directory: ./App
+        working-directory: ./backend
         run: npm test
 
       - name: Sonar Scan
@@ -51,7 +51,7 @@ jobs:
       - name: Build & Push Image
         if: false
         run: |
-          docker build -t silencfox/simpleapi:latest ./App
+          docker build -t silencfox/simpleapi:latest ./backend
           docker push silencfox/simpleapi:latest
           #docker push silencfox/simpleapi:${{ github.sha }}
 
