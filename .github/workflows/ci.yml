@@ -157,7 +157,7 @@ jobs:
           echo 'EOF' >> $GITHUB_ENV
 
           
-          $S3_BUCKET="devsu-app-test-bucket"
+          S3_BUCKET="devsu-app-test-bucket"
 
           echo 'S3_BUCKET<<EOF' >> $GITHUB_ENV
           echo "$S3_BUCKET" >> $GITHUB_ENV
