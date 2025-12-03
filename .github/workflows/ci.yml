@@ -8,6 +8,7 @@ on:
 
 jobs:
   build:
+    name: build
     runs-on: ubuntu-latest
 
     steps:
@@ -56,9 +57,14 @@ jobs:
           #docker push silencfox/simpleapi:${{ github.sha }}
 
   deploy:
-    runs-on: ubuntu-latest
     needs: docker
-    
+    name: deploy
+    runs-on: ubuntu-latest
+    env:
+      HOLA: ${{ mundo }}
+    defaults:
+      run:
+        working-directory: infra
     steps:
 
       - name: Despliegue
