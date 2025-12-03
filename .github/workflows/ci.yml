@@ -185,12 +185,21 @@ jobs:
           ALB2: ${{ env.ALB_DNS_NAME2 }}
         run: |
           echo "Usando ALB: $ALB"
-          echo "ALB_URL: $ALB_DNS_NAME"
+          echo "ALB_DNS_NAME: $ALB_DNS_NAME"
           echo "S3_BUCKET: $S3_BUCKET"
           echo "RDS_ENDPOINT: $RDS_ENDPOINT"
           echo "RDS_ENDPOINT_MYSQL: $RDS_ENDPOINT_MYSQL"
           echo "S3_WEBSITE_URL: $S3_WEBSITE_URL"
 
+      - name: ReplaceTokens
+        uses: qetza/replacetokens-action@v1
+        with:
+          sources: |
+            **/*.json;!**/*.dev.json;!**/vars.json => _tmp/*.json
+            **/*.yml;**/*.yaml;**/*.tfvars;**/backend.tf
+            **/app.js;
+          variables: '[${{ toJSON(vars) }},${{ toJSON(secrets) }},"$ENV"]'
+          
     
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
