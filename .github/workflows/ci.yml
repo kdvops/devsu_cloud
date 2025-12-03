@@ -137,9 +137,10 @@ jobs:
       - name: Export outputs as GitHub Env Vars
         working-directory: ./infra
         run: |
-          terraform output -raw alb_dns_name
+          #terraform output -raw alb_dns_name
           #echo "ALB_DNS_NAME=$(terraform output -raw alb_dns_name)" >> $GITHUB_ENV
           ALB_URL=$(terraform output -raw alb_dns_name | sed 's/::debug::.*//')
+          echo $ALB_URL
           #echo "ALB_DNS_NAME=$(echo $ALB_URL)" >> $GITHUB_ENV
           printf "ALB_DNS_NAME=%s\n" "$ALB_URL" >> $GITHUB_ENV
           #echo "ALB limpio: $ALB_URL"
@@ -187,7 +188,7 @@ jobs:
           TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
 
 
-       
+
       #- name: Deploy to K8s via kubectl
       #  uses: azure/k8s-deploy@v4
       #  with:
