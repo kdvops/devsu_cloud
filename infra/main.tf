@@ -69,7 +69,7 @@ module "ecs" {
   #db_host     = module.rds.db_endpoint_mysql
   db_host     = var.db_host
   db_user     = var.db_user
-  db_name     = "testdb"
+  db_name     = var.db_name
   db_password = var.db_password
 
 }
