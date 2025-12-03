@@ -41,7 +41,6 @@ variable "db_password" {
   sensitive   = true
 }
 
-
 variable "db_host" {
   type    = string
   default = "database-1.c29y2kmw0cj4.us-east-1.rds.amazonaws.com"
