@@ -17,20 +17,43 @@ resource "aws_ecs_task_definition" "task" {
     {
       name  = "backend"
       image = var.container_image
-      portMappings = [{
-        containerPort = var.container_port
-        protocol      = "tcp"
-      }]
 
-        environment = [
-        { name = "PORT",         value = tostring(var.container_port) },
-        { name = "DB_HOST",      value = var.db_host },
-        { name = "DB_USER",      value = var.db_user },
-        { name = "DB_PASSWORD",  value = var.db_password },
-        { name = "DB_NAME",      value = var.db_name },
-        ]
+      portMappings = [
+        {
+          containerPort = var.container_port
+          protocol      = "tcp"
+        }
+      ]
 
+      # ==========================================================
+      # ENVIRONMENT VARIABLES (NO SENSIBLES)
+      # ==========================================================
+      environment = [
+        { name = "PORT",      value = tostring(var.container_port) },
+        { name = "DB_NAME",   value = var.db_name }
+      ]
 
+      # ==========================================================
+      # SECRETS DESDE SSM PARAMETER STORE O SECRETS MANAGER
+      # ==========================================================
+      secrets = [
+        {
+          name      = "DB_HOST"
+          valueFrom = var.ssm_db_host_arn   # ejemplo: aws_ssm_parameter.db_host.arn
+        },
+        {
+          name      = "DB_USER"
+          valueFrom = var.ssm_db_user_arn   # ejemplo: aws_ssm_parameter.db_user.arn
+        },
+        {
+          name      = "DB_PASSWORD"
+          valueFrom = var.ssm_db_pass_arn   # ejemplo: aws_ssm_parameter.db_password.arn
+        }
+      ]
+
+      # ==========================================================
+      # LOGS
+      # ==========================================================
       logConfiguration = {
         logDriver = "awslogs"
         options = {
@@ -45,5 +68,4 @@ resource "aws_ecs_task_definition" "task" {
   depends_on = [
     aws_cloudwatch_log_group.backend
   ]
-
 }
