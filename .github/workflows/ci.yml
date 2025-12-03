@@ -153,9 +153,9 @@ jobs:
           
           ALB_URL=$(terraform output -raw alb_dns_name | sed 's/::debug::.*//' | tr -d '\r')
           #echo "ALB URL: $ALB_URL"
-          echo 'ALB_DNS_NAME<<EOF' >> $GITHUB_ENV
-          echo "$ALB_URL" >> $GITHUB_ENV
-          echo 'EOF' >> $GITHUB_ENV
+          #echo 'ALB_DNS_NAME<<EOF' >> $GITHUB_ENV
+          #echo "$ALB_URL" >> $GITHUB_ENV
+          #echo 'EOF' >> $GITHUB_ENV
 
           
           #echo "S3_BUCKET=$(terraform output -raw s3_bucket)" >> $GITHUB_ENV
