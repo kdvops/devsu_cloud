@@ -98,7 +98,7 @@ jobs:
         with:
           sources: |
             **/*.json;!**/*.dev.json;!**/vars.json => _tmp/*.json
-            **/*.yml;**/*.yaml;
+            **/*.yml;**/*.yaml
           variables: '[${{ toJSON(vars) }},${{ toJSON(secrets) }},"$ENV_VARS"]' # use variables & secrets
             
       #- name: Deploy to K8s via kubectl
