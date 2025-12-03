@@ -87,8 +87,8 @@ module "ecs" {
   ssm_db_pass_arn = aws_ssm_parameter.db_password.arn
   #db_name         = "mydatabase"
 
-  #db_host     = module.rds.db_endpoint_mysql
-  db_host     = var.db_host
+  #db_host    = module.rds.db_endpoint_mysql
+  db_host     = module.rds.db_endpoint_mysql
   db_user     = var.db_user
   db_name     = var.db_name
   db_password = var.db_password
