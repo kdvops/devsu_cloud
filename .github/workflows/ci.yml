@@ -152,6 +152,8 @@ jobs:
 
 
       - name: Mostrar outputs exportados
+        env:
+          ALB: ${{ env.ALB_DNS_NAME }}
         run: |
           echo "ALB_URL: $ALB_DNS_NAME"
           echo "S3_BUCKET: $S3_BUCKET"
@@ -159,7 +161,9 @@ jobs:
           echo "RDS_ENDPOINT: $RDS_ENDPOINT_MYSQL"
           echo "RDS_ENDPOINT: $S3_BUCKET"
           echo "RDS_ENDPOINT: $S3_WEBSITE_URL"
-          
+          echo "Usando ALB: $ALB"
+
+    
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
