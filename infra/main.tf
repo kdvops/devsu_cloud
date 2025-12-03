@@ -82,6 +82,10 @@ module "ecs" {
   sg_tasks   = module.security.sg_mysql_default
   sg_alb     = module.security.sg_mysql_default
   
+  ssm_db_host_arn = aws_ssm_parameter.db_host.arn
+  ssm_db_user_arn = aws_ssm_parameter.db_user.arn
+  ssm_db_pass_arn = aws_ssm_parameter.db_password.arn
+  #db_name         = "mydatabase"
 
   #db_host     = module.rds.db_endpoint_mysql
   db_host     = var.db_host
