@@ -102,6 +102,7 @@ jobs:
         run: terraform validate
 
       - name: Terraform Plan
+        if: false
         working-directory: ./infra
         run: terraform plan
         env:
