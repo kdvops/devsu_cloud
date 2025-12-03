@@ -29,7 +29,7 @@ jobs:
         run: npm test
 
       - name: Sonar Scan
-        #if: false
+        if: false
         uses: sonarsource/sonarqube-scan-action@v6
         with:
           projectBaseDir: ./backend
@@ -51,10 +51,14 @@ jobs:
           username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build & Push Image
-        #if: false
+      - name: Build
+        if: false
         run: |
           docker build -t silencfox/simpleapi:latest ./backend
+
+      - name: Push Image
+        if: false
+        run: |
           docker push silencfox/simpleapi:latest
           #docker push silencfox/simpleapi:${{ github.sha }}
 
@@ -135,23 +139,23 @@ jobs:
       #  with:
       #    name: infra_outputs
       #    path: ./infra/infra_outputs.json
-
-      - name: Test vars
-        working-directory: ./infra
-        run: |
-          MYVAR="Hola Mundo DK"
-          echo $MYVAR
           
       - name: Export outputs as GitHub Env Vars
         working-directory: ./infra
         run: |
-          ALB_URL=$(terraform output -raw alb_dns_name | sed 's/::debug::.*//' | tr -d '\r')
-          S3_BUCKET=$(terraform output -raw s3_bucket | sed 's/::debug::.*//' | tr -d '\r')
-          RDS_ENDPOINT=$(terraform output -raw rds_endpoint | sed 's/::debug::.*//' | tr -d '\r')
-          RDS_ENDPOINT_MYSQL=$(terraform output -raw rds_endpoint_mysql | sed 's/::debug::.*//' | tr -d '\r')
-          S3_WEBSITE_URL=$(terraform output -raw s3_website_url | sed 's/::debug::.*//' | tr -d '\r')
-          #echo "ALB_DNS_NAME2=$(echo $ALB_URL)" >> $GITHUB_ENV
-          #echo "ALB_DNS_NAME2=$ALB_URL" >> $GITHUB_ENV
+          #ALB_URL=$(terraform output -raw alb_dns_name | sed 's/::debug::.*//' | tr -d '\r')
+          #S3_BUCKET=$(terraform output -raw s3_bucket | sed 's/::debug::.*//' | tr -d '\r')
+          #RDS_ENDPOINT=$(terraform output -raw rds_endpoint | sed 's/::debug::.*//' | tr -d '\r')
+          #RDS_ENDPOINT_MYSQL=$(terraform output -raw rds_endpoint_mysql | sed 's/::debug::.*//' | tr -d '\r')
+          #S3_WEBSITE_URL=$(terraform output -raw s3_website_url | sed 's/::debug::.*//' | tr -d '\r')
+
+          ALB_URL=$(terraform output -raw alb_dns_name | sed 's/::debug::.*//' | tr -d '\r' | tail -n 1)
+          S3_BUCKET=$(terraform output -raw s3_bucket | sed 's/::debug::.*//' | tr -d '\r' | tail -n 1)
+          RDS_ENDPOINT=$(terraform output -raw rds_endpoint | sed 's/::debug::.*//' | tr -d '\r' | tail -n 1)
+          RDS_ENDPOINT_MYSQL=$(terraform output -raw rds_endpoint_mysql | sed 's/::debug::.*//' | tr -d '\r' | tail -n 1)
+          S3_WEBSITE_URL=$(terraform output -raw s3_website_url | sed 's/::debug::.*//' | tr -d '\r' | tail -n 1)
+          
+
           
           echo 'ALB_DNS_NAME<<EOF' >> $GITHUB_ENV
           echo "$ALB_URL" >> $GITHUB_ENV
@@ -172,12 +176,6 @@ jobs:
           echo 'S3_WEBSITE_URL<<EOF' >> $GITHUB_ENV
           echo "$S3_WEBSITE_URL" >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
-
-          echo "ALB_DNS_NAME=$(terraform output -raw alb_dns_name)" >> $GITHUB_ENV
-          echo "S3_BUCKET=$(terraform output -raw s3_bucket)" >> $GITHUB_ENV
-          echo "RDS_ENDPOINT=$(terraform output -raw rds_endpoint)" >> $GITHUB_ENV
-          echo "RDS_ENDPOINT_MYSQL=$(terraform output -raw rds_endpoint_mysql)" >> $GITHUB_ENV
-          echo "S3_WEBSITE_URL=$(terraform output -raw s3_website_url)" >> $GITHUB_ENV
           
           #echo "S3_BUCKET=$(terraform output -raw s3_bucket)" >> $GITHUB_ENV
           #echo "RDS_ENDPOINT=$(terraform output -raw rds_endpoint)" >> $GITHUB_ENV
