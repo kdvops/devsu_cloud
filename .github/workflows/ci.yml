@@ -110,6 +110,7 @@ jobs:
           TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
 
       - name: Terraform apply
+        if: github.ref == 'refs/heads/main'
         working-directory: ./infra
         run: terraform destroy --auto-approve
         env:
@@ -117,6 +118,39 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
 
+
+      - name: Export Terraform Outputs to JSON
+        id: tf_outputs
+        run: |
+          terraform output -json > infra_outputs.json
+          echo "Outputs generados:"
+          cat infra_outputs.json
+
+      - name: Upload Terraform Output Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: infra_outputs
+          path: infra_outputs.json
+
+      - name: Export outputs as GitHub Env Vars
+        run: |
+          echo "ALB_DNS_NAME=$(terraform output -raw alb_dns_name)" >> $GITHUB_ENV
+          echo "S3_BUCKET=$(terraform output -raw s3_bucket)" >> $GITHUB_ENV
+          echo "RDS_ENDPOINT=$(terraform output -raw rds_endpoint)" >> $GITHUB_ENV
+          echo "RDS_ENDPOINT_MYSQL=$(terraform output -raw rds_endpoint_mysql)" >> $GITHUB_ENV
+          echo "S3_BUCKET=$(terraform output -raw s3_bucket)" >> $GITHUB_ENV
+          echo "S3_WEBSITE_URL=$(terraform output -raw s3_website_url)" >> $GITHUB_ENV
+
+
+      - name: Mostrar outputs exportados
+        run: |
+          echo "ALB_URL: $ALB_DNS_NAME"
+          echo "S3_BUCKET: $S3_BUCKET"
+          echo "RDS_ENDPOINT: $RDS_ENDPOINT"
+          echo "RDS_ENDPOINT: $RDS_ENDPOINT_MYSQL"
+          echo "RDS_ENDPOINT: $S3_BUCKET"
+          echo "RDS_ENDPOINT: $S3_WEBSITE_URL"
+          
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -128,11 +162,7 @@ jobs:
         run: aws s3 sync ./frontend s3://devsu-app-test-bucket
         #--delete
     
-      #- name: Terraform Apply
-      #  if: github.ref == 'refs/heads/main'
-      #  run: terraform apply -auto-approve
-
-        
+       
       #- name: Deploy to K8s via kubectl
       #  uses: azure/k8s-deploy@v4
       #  with:
