@@ -78,7 +78,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Despliegue
-        run: echo "tarea de despliegue"
+        run: echo "tarea de despliegue Running for ${{ matrix.environment }}"
 
       - name: HashiCorp - Setup Terraform
         uses: hashicorp/setup-terraform@v2.0.3
