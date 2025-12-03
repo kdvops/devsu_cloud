@@ -82,7 +82,7 @@ jobs:
 
       - name: Define variables for replace tokens
         run: |
-          echo "ENVIRONMENT=${{ matrix.environment }}" >> $GITHUB_ENV
+          echo "{\"ENVIRONMENT\":\"${{ matrix.environment }}\"}" > env.json
           
       - name: HashiCorp - Setup Terraform
         uses: hashicorp/setup-terraform@v2.0.3
@@ -95,7 +95,7 @@ jobs:
           sources: |
             **/*.json;!**/*.dev.json;!**/vars.json => _tmp/*.json
             **/*.yml;**/*.yaml;**/*.tfvars;**/backend.tf
-          variables: '[${{ toJSON(vars) }},${{ toJSON(secrets) }},"$ENV_VARS",ENVIRONMENT=${{ env.ENVIRONMENT }}]' # use variables & secrets
+          variables: '[${{ toJSON(vars) }},${{ toJSON(secrets) }},"$ENV_VARS",${{ file("env.json") }}]'
 
       - name: Terraform Init
         run: terraform init
