@@ -200,9 +200,6 @@ jobs:
           variables: |
             '[
               {
-                  "ENVIRONMENT": "devsarrollo",
-                  "DB_PASSWORD": "123456789",
-                  "DB_USER": "root",
                   "DOCKERHUB_USERNAME": "silencfox"
                 },              
               ${{ toJSON(vars) }},${{ toJSON(secrets) }},"$ENV"]'
