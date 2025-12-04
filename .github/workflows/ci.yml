@@ -197,7 +197,7 @@ jobs:
             **/*.json;!**/*.dev.json;!**/vars.json => _tmp/*.json
             **/*.yml;**/*.yaml;**/*.tfvars;**/backend.tf
             **/app.js;**/db.js
-          variables: '[${{ toJSON(vars) }},${{ toJSON(secrets) }},"$ALB_DNS_NAME"]'
+          variables: '[${{ toJSON(vars) }},${{ toJSON(secrets) }},"$ENV"]'
           
     
       - name: Configure AWS credentials
