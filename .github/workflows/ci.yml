@@ -93,13 +93,11 @@ jobs:
 
       - name: ReplaceTokens
         uses: qetza/replacetokens-action@v1
-        env:
-          ALB_DNS_NAME: ${{ env.ALB_DNS_NAME }}
         with:
           sources: |
             **/*.json;!**/*.dev.json;!**/vars.json => _tmp/*.json
             **/*.yml;**/*.yaml;**/*.tfvars;**/backend.tf
-          variables: '[${{ toJSON(vars) }},${{ toJSON(secrets) }},"$ENV","$ALB_DNS_NAME"]'
+          variables: '[${{ toJSON(vars) }},${{ toJSON(secrets) }},"$ENV"]'
 
       - name: Terraform Init
         working-directory: ./infra
@@ -145,35 +143,15 @@ jobs:
       - name: Export outputs as GitHub Env Vars
         working-directory: ./infra
         run: |
-          #ALB_URL=$(terraform output -raw alb_dns_name | sed 's/::debug::.*//' | tr -d '\r')
+          ALB_URL=$(terraform output -raw alb_dns_name | sed 's/::debug::.*//' | tr -d '\r')
           S3_BUCKET=$(terraform output -raw s3_bucket | sed 's/::debug::.*//' | tr -d '\r')
           RDS_ENDPOINT=$(terraform output -raw rds_endpoint | sed 's/::debug::.*//' | tr -d '\r')
           RDS_ENDPOINT_MYSQL=$(terraform output -raw rds_endpoint_mysql | sed 's/::debug::.*//' | tr -d '\r')
           S3_WEBSITE_URL=$(terraform output -raw s3_website_url | sed 's/::debug::.*//' | tr -d '\r')
 
-          S3_BUCKET=$(echo "$S3_BUCKET" | sed 's/^\[command\].* -raw [^ ]* //')
-
-
-          raw_alb=$(terraform output alb_dns_name 2>&1)
-          
-          ALB_URL=$(
-            echo "$raw_alb" \
-            | sed 's/^[^ ]* [^ ]* [^ ]* //' \
-            | sed 's/"//g' \
-            | tr -d '\r'
-          )
-          
-          echo "ALB limpio: $ALB_URL"
-          echo "ALB_DNS_NAME=$ALB_URL" >> $GITHUB_ENV
-
-
-          
           echo 'ALB_DNS_NAME<<EOF' >> $GITHUB_ENV
           echo "$ALB_URL" >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
-
-          
-          S3_BUCKET="devsu-app-test-bucket"
 
           echo 'S3_BUCKET<<EOF' >> $GITHUB_ENV
           echo "$S3_BUCKET" >> $GITHUB_ENV
@@ -212,12 +190,14 @@ jobs:
 
       - name: ReplaceTokens
         uses: qetza/replacetokens-action@v1
+        env:
+          ALB_DNS_NAME: ${{ env.ALB_DNS_NAME }}
         with:
           sources: |
             **/*.json;!**/*.dev.json;!**/vars.json => _tmp/*.json
             **/*.yml;**/*.yaml;**/*.tfvars;**/backend.tf
             **/app.js;**/db.js
-          variables: '[${{ toJSON(vars) }},${{ toJSON(secrets) }},"$ENV"]'
+          variables: '[${{ toJSON(vars) }},${{ toJSON(secrets) }},"$ALB_DNS_NAME"]'
           
     
       - name: Configure AWS credentials
