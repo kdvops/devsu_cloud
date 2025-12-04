@@ -155,9 +155,18 @@ jobs:
 
 
           raw_alb=$(terraform output alb_dns_name 2>&1)
-          ALB_URL=$(echo "$raw_alb" | sed -E 's/^\[command\].*-raw [^ ]+ //' | tr -d '\r')
-          echo "valod crudo ALB : $ALB_URL"
-          echo "ALB_DNS_NAME=$ALB_DNS_NAME" >> $GITHUB_ENV
+          
+          ALB_URL=$(
+            echo "$raw_alb" \
+            | sed 's/^[^ ]* [^ ]* [^ ]* //' \
+            | sed 's/"//g' \
+            | tr -d '\r'
+          )
+          
+          echo "ALB limpio: $ALB_URL"
+          echo "ALB_DNS_NAME=$ALB_URL" >> $GITHUB_ENV
+
+
           
           echo 'ALB_DNS_NAME<<EOF' >> $GITHUB_ENV
           echo "$ALB_URL" >> $GITHUB_ENV
