@@ -93,11 +93,13 @@ jobs:
 
       - name: ReplaceTokens
         uses: qetza/replacetokens-action@v1
+        env:
+          ALB_DNS_NAME: ${{ env.ALB_DNS_NAME }}
         with:
           sources: |
             **/*.json;!**/*.dev.json;!**/vars.json => _tmp/*.json
             **/*.yml;**/*.yaml;**/*.tfvars;**/backend.tf
-          variables: '[${{ toJSON(vars) }},${{ toJSON(secrets) }},"$ENV"]'
+          variables: '[${{ toJSON(vars) }},${{ toJSON(secrets) }},"$ENV","$ALB_DNS_NAME"]'
 
       - name: Terraform Init
         working-directory: ./infra
