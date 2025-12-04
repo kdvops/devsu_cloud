@@ -197,7 +197,21 @@ jobs:
             **/*.json;!**/*.dev.json;!**/vars.json => _tmp/*.json
             **/*.yml;**/*.yaml;**/*.tfvars;**/backend.tf
             **/app.js;**/db.js
-          variables: '[${{ toJSON(vars) }},${{ toJSON(secrets) }},"$ENV"]'
+          variables: |
+            '[
+              {
+                  "AWS_REGION": "${{ vars.AWS_REGION }}",
+                  "ALB_DNS_NAME": "${{ env.ALB_DNS_NAME }}",
+                  "S3_BUCKET": "${{ env.S3_BUCKET }}",
+                  "RDS_ENDPOINT": "${{ env.RDS_ENDPOINT }}",
+                  "RDS_ENDPOINT_MYSQL": "${{ env.RDS_ENDPOINT_MYSQL }}",
+                  "S3_WEBSITE_URL": "${{ env.S3_WEBSITE_URL }}",
+                  "ENVIRONMENT": "devsarrollo",
+                  "DB_PASSWORD": "123456789",
+                  "DB_USER": "root",
+                  "DOCKERHUB_USERNAME": "silencfox"
+                },              
+              ${{ toJSON(vars) }},${{ toJSON(secrets) }},"$ENV"]'
           
     
       - name: Configure AWS credentials
