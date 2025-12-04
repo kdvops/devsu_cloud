@@ -1,4 +1,4 @@
-const API_URL = "#{ALB_DNS_NAME}#/api/usuarios"; 
+const API_URL = "http://#{ALB_DNS_NAME}#/api/usuarios"; 
 // Ej: "https://api.kdvops.com/api/usuarios"
 
 async function listarUsuarios() {
