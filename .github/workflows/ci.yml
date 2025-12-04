@@ -219,7 +219,7 @@ jobs:
         #--delete
     
       - name: Terraform destroy
-       # if: false
+        if: false
         working-directory: ./infra
         run: terraform destroy --auto-approve
         env:
