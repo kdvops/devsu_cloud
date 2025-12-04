@@ -52,12 +52,12 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build
-        if: false
+        #if: false
         run: |
           docker build -t silencfox/simpleapi:latest ./backend
 
       - name: Push Image
-        if: false
+        #if: false
         run: |
           docker push silencfox/simpleapi:latest
           #docker push silencfox/simpleapi:${{ github.sha }}
